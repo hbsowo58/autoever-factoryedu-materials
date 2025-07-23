@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.CommentMapper">
+    <!-- 특정 게시글의 댓글 목록 조회 -->
+    <select id="findByPostId" parameterType="long" resultType="com.example.demo.model.Comment">
+        SELECT * FROM comments WHERE post_id = #{postId} ORDER BY id ASC
+    </select>
+
+    <!-- 댓글 단건 조회 -->
+    <select id="findById" parameterType="long" resultType="com.example.demo.model.Comment">
+        SELECT * FROM comments WHERE id = #{id}
+    </select>
+
+    <!-- 댓글 등록 -->
+    <insert id="insert" parameterType="com.example.demo.model.Comment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO comments (post_id, content, created_at, updated_at)
+        VALUES (#{postId}, #{content}, NOW(), NOW())
+    </insert>
+
+    <!-- 댓글 수정 -->
+    <update id="update" parameterType="com.example.demo.model.Comment">
+        UPDATE comments SET content = #{content}, updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 댓글 삭제 -->
+    <delete id="delete" parameterType="long">
+        DELETE FROM comments WHERE id = #{id}
+    </delete>
+</mapper> 
