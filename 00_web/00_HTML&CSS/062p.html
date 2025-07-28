@@ -4,58 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <title>부품 등록 폼</title>
-    <style>
-        body {
-            margin: 0;
-        }
+	<style>
+		.form-container {
+			display: flex;
+			flex-direction: column;
+			max-width: 400px;
+		}
 
-        .form-container {
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-        }
+		h1{
+			text-align: center;
+		}
 
-        h1 {
-            text-align: center;
-        }
+		label {
+			font-weight: bold;
+		}
 
-        label {
-            display: block;
-            font-weight: bold;
-            color: #222;
-        }
+		input {
+			width:100%;
+		}
 
-        input[type="text"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px 10px;
-            border: 1.5px solid #ccc;
-            border-radius: 6px;
-            font-size: 1em;
-            margin-bottom: 2px;
-            box-sizing: border-box;
-            background: #fafafa;
-        }
+		.btn-group{
+			display: flex;
+			justify-content: center;
+			margin-top: 10px;
+		}
 
+		button{
+			background: green;
+			color:white;
+			cursor: pointer;
+			border:none;
+			border-radius: 5px;
+			padding:10px 30px;
+			margin-right: 5px;
+		}
 
 
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        button {
-            background: green;
-            border-radius: 5px;
-            border: none;
-            color: white;
-            padding: 10px 30px;
-            cursor: pointer;
-        }
-    </style>
+	</style>
 </head>
 
 <body>
@@ -86,5 +71,4 @@
         </form>
     </div>
 </body>
-
 </html>
