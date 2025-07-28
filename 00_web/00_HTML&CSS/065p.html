@@ -1,118 +1,86 @@
 <!DOCTYPE html>
-<html lang="ko">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>반응형 네비게이션 예제</title>
-    <style>
-        body {
-            background: #f3ebe9;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>반응형 웹 예제</title>
+	<style>
+		.container{
+			border:1px solid black;
+		}
 
-        .container {
-            border: 2px solid #222;
-            margin: 8px auto;
-            background: #fff;
-            width: 96vw;
-            max-width: 98vw;
-            min-height: 90vh;
-            box-sizing: border-box;
-            padding: 16px 0 0 0;
-        }
+		.nav{
+			border:1px solid black;
+			display: flex;
+			justify-content: space-between;
+		}
 
-        .nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 2px solid #222;
-            margin: 8px 16px 0 16px;
-            padding: 8px 16px;
-            background: #fff;
-        }
+		.logo{
+			font-weight: bold;
+		}
 
-        .logo {
-            font-size: 1.4em;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
+		.auth-btns{
+			display: none;
+		}
 
-        .auth-btns {
-            display: none;
-            gap: 8px;
-        }
+		.hamburger{
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			width:32px;
+			height:32px;
+			cursor: pointer;
+		}
 
-        .auth-btns button {
-            border: none;
-            background: #222;
-            color: #fff;
-            font-size: 1em;
-            padding: 6px 18px;
-            border-radius: 4px;
-            margin-left: 4px;
-            cursor: pointer;
-        }
+		.hamburger span{
+			display: block;
+			height: 4px;
+			background: #222;
+			margin: 3px 0
+		}
 
-        .hamburger {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            cursor: pointer;
-        }
+		/* 600px이상에서는 햄버거를 숨기고, 버튼을 보이게 하기 */
+		@media (min-width: 600px){
+			.auth-btns{
+				display: flex;
+			}
 
-        .hamburger span {
-            display: block;
-            height: 4px;
-            background: #222;
-            margin: 3px 0;
-            border-radius: 2px;
-            transition: 0.2s;
-        }
+			.hamburger{
+				display: none;
+			}
+		}
 
-        /* 600px 이상에서는 햄버거 숨기고 버튼 보이기 */
-        @media (min-width: 600px) {
-            .auth-btns {
-                display: flex;
-            }
+		/* 600px 미만에서는 햄버거만 보이기 */
+		@media (max-width: 599px){
+			.auth-btns{
+				display: none;
+			}
 
-            .hamburger {
-                display: none;
-            }
-        }
+			.hamburger{
+				display: flex;
+			}
+		}
 
-        /* 600px 미만에서는 햄버거만 보이기 */
-        @media (max-width: 599px) {
-            .auth-btns {
-                display: none;
-            }
 
-            .hamburger {
-                display: flex;
-            }
-        }
-    </style>
+
+	</style>
 </head>
-
 <body>
-    <div class="container">
-        <nav class="nav">
-            <span class="logo">로고</span>
-            <div class="auth-btns">
-                <button>로그인</button>
-                <button>회원가입</button>
-            </div>
-            <div class="hamburger" tabindex="0" aria-label="메뉴 열기">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
-        <!-- 본문 영역 -->
-    </div>
+	<div class="container">
+		<nav class="nav">
+			<span class="logo">로고</span>
+			
+			<div class="auth-btns">
+				<button>로그인</button>
+				<button>회원가입</button>
+			</div>
+			
+			<div class="hamburger">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		</nav>
+	</div>
 </body>
-
 </html>
