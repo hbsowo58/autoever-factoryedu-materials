@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>색상 바꾸기</title>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="button" value="색상바꾸기"></input>
+    <div></div>
+    <script>
+        const colors = ['red', 'orange', 'yellow'];
+        let idx = 0;
+        document.querySelector('input').addEventListener('click', function () {
+            idx++;
+            if (idx >= colors.length) idx = 0;
+            document.querySelector('div').style.background = colors[idx];
+        });
+    </script>
+</body>
+
+</html>
