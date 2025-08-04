@@ -1,36 +1,35 @@
 <!DOCTYPE html>
-<html lang="ko">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>회원가입 입력 검증</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>회원가입 폼</title>
 </head>
-
 <body>
-    <form class="authForm">
-        <input type="text" class="userId" placeholder="아이디">
-        <br>
-        <input type="password" class="userPw" placeholder="비밀번호">
-        <br>
-        <button type="submit">회원가입</button>
-        <div class="error"></div>
-    </form>
-    <script>
-        // 회원가입 폼 입력 검증
-        document.querySelector('.authForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const id = document.querySelector('.userId').value.trim();
-            const pw = document.querySelector('.userPw').value.trim();
-            const errorMsg = document.querySelector('.error');
-            if (id && pw) {
-                alert('회원가입이 완료되었습니다!');
-                errorMsg.textContent = '';
-            } else {
-                errorMsg.textContent = '아이디와 비밀번호를 모두 입력하세요.';
-                errorMsg.style.color = 'red';
-            }
-        });
-    </script>
-</body>
+	<form>
+		<input type="text" class="id">
+		<br>
+		<input type="password" name="" id="" class="pw">
+		<br>
+		<button type="submit">회원가입</button>
+		<div></div>
+	</form>
 
+	<script>
+		document.querySelector('form').addEventListener('submit',function(event){
+			event.preventDefault()
+			console.log("hello world!")
+			const id = document.querySelector('.id').value.trim()
+			const pw = document.querySelector('.pw').value.trim()
+			console.log(id,pw)
+			if(id && pw){
+				alert("회원가입이 완료되었습니다")
+			} else {
+				document.querySelector('div').textContent = '아이디와 비밀번호를 모두 입력하세요'
+				document.querySelector('div').style.color = 'red'
+			}
+		})
+	</script>
+
+</body>
 </html>
