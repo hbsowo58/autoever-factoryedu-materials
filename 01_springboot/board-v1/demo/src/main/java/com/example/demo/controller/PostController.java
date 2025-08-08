@@ -11,7 +11,7 @@ import java.util.List;
  * HTTP 요청을 받아 Service 호출, 결과 반환
  */
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/post")
 public class PostController {
     private final PostService postService;
 
