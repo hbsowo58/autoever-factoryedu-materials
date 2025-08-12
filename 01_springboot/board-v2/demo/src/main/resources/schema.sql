@@ -1,4 +1,4 @@
-  CREATE DATABASE board DEFAULT CHARACTER SET utf8mb4;
+CREATE DATABASE board DEFAULT CHARACTER SET utf8mb4;
 
 -- 게시글 테이블
 CREATE TABLE posts (
@@ -17,4 +17,15 @@ CREATE TABLE comments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '댓글 작성 시각',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '댓글 수정 시각',
     CONSTRAINT fk_post_id FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
-); 
+);
+
+-- 테스트 게시글 데이터
+INSERT INTO posts (title, content) VALUES
+('첫 번째 게시글', '안녕하세요! 첫 번째 게시글입니다.'),
+('두 번째 게시글', '두 번째 게시글의 내용입니다.');
+
+-- 테스트 댓글 데이터
+INSERT INTO comments (post_id, content) VALUES
+(1, '첫 번째 게시글에 대한 댓글입니다.'),
+(1, '첫 번째 게시글에 대한 두 번째 댓글입니다.'),
+(2, '두 번째 게시글에 대한 댓글입니다.');
