@@ -1,39 +1,32 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-// 페이지 컴포넌트 import
-import DashboardPage from "../pages/DashboardPage.vue";
-import VehicleDetailPage from "../pages/VehicleDetailPage.vue";
-import AlertLogPage from "../pages/AlertLogPage.vue";
-import NotFoundPage from "../pages/NotFoundPage.vue";
-import AddVehiclePage from "../pages/AddVehiclePage.vue"; // 차량 등록 페이지 추가
-
 // 라우터 설정
 const routes = [
   {
     path: "/",
     name: "Dashboard",
-    component: DashboardPage,
+    component: () => import("../pages/DashboardPage.vue"),
   },
   {
     path: "/vehicle/:id",
     name: "VehicleDetail",
-    component: VehicleDetailPage,
+    component: () => import("../pages/VehicleDetailPage.vue"),
     props: true,
   },
   {
     path: "/alerts",
     name: "AlertLog",
-    component: AlertLogPage,
+    component: () => import("../pages/AlertLogPage.vue"),
   },
   {
     path: "/add-vehicle", // 차량 등록 경로 추가
     name: "AddVehicle",
-    component: AddVehiclePage,
+    component: () => import("../pages/AddVehiclePage.vue"),
   },
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
-    component: NotFoundPage,
+    component: () => import("../pages/NotFoundPage.vue"),
   },
 ];
 
