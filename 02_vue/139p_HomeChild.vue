@@ -1,15 +1,18 @@
+<script setup>
+import GrandChild from '@/components/GrandChild.vue';
+import { usePersonStore } from '@/stores/person.js';
+const store = usePersonStore()
+const changeName = () => {
+	store.name = 'tom'
+}
+</script>
+
 <template>
-  <div>
-    <h1>HomeChild</h1>
-    <div>{{ name }}</div>
-    <div>{{ age }}</div>
-    <button @click="$emit('changeName')">이름 변경</button>
-    <GrandChild :name="name" @setAgeOne="$emit('setAgeOne')" />
-  </div>
+	<h1>Home Child</h1>
+	{{ store.name }}
+	{{ store.age }}
+	<button @click="changeName">이름 변경</button>
+	<GrandChild/>
 </template>
 
-<script setup>
-import GrandChild from "./GrandChild.vue";
-defineProps(["name", "age"]);
-defineEmits(["changeName", "setAgeOne"]);
-</script> 
+
