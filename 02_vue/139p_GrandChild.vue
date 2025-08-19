@@ -1,12 +1,15 @@
+<script setup>
+import { usePersonStore } from '@/stores/person.js';
+const store = usePersonStore()
+const changeAge = () => {
+	store.age = 1;
+}
+</script>
+
 <template>
-  <div>
-    <h1>GrandChild</h1>
-    <div>{{ name }}</div>
-    <button @click="$emit('setAgeOne')">나이를 1로 변경</button>
-  </div>
+	<h1>GrandChild</h1>
+	{{ store.name }}
+	<button @click="changeAge">한살로 돌아가자</button>
 </template>
 
-<script setup>
-defineProps(["name"]);
-defineEmits(["setAgeOne"]);
-</script> 
+
