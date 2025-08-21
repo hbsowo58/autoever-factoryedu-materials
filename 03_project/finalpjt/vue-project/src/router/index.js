@@ -41,6 +41,12 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: "/profile",
+    name: "Profile",
+    component: () => import("../pages/ProfilePage.vue"),
+    meta: { requiresAuth: true }
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import("../pages/NotFoundPage.vue"),

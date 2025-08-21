@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Map;
 
 @Service
 public class AuthService {
@@ -106,5 +107,74 @@ public class AuthService {
             e.printStackTrace();
             throw new RuntimeException("자격 증명에 실패하였습니다.");
         }
+    }
+
+    // 현재 사용자 정보 조회
+    public User getCurrentUser(String token) {
+        String actualToken = token.replace("Bearer ", "");
+        String username = jwtUtil.extractUsername(actualToken);
+        User user = userMapper.findByUsername(username);
+        if (user == null) {
+            throw new RuntimeException("사용자를 찾을 수 없습니다.");
+        }
+        return user;
+    }
+
+    // 회원 정보 수정
+    public User updateProfile(String token, Map<String, String> request) {
+        User currentUser = getCurrentUser(token);
+        
+        String newUsername = request.get("username");
+        String newEmail = request.get("email");
+        
+        // 사용자명 중복 확인 (자신 제외)
+        if (newUsername != null && !newUsername.equals(currentUser.getUsername())) {
+            if (userMapper.existsByUsername(newUsername)) {
+                throw new RuntimeException("이미 사용 중인 사용자명입니다.");
+            }
+            currentUser.setUsername(newUsername);
+        }
+        
+        // 이메일 중복 확인 (자신 제외)
+        if (newEmail != null && !newEmail.equals(currentUser.getEmail())) {
+            if (userMapper.existsByEmail(newEmail)) {
+                throw new RuntimeException("이미 사용 중인 이메일입니다.");
+            }
+            currentUser.setEmail(newEmail);
+        }
+        
+        userMapper.updateUser(currentUser);
+        return currentUser;
+    }
+
+    // 비밀번호 변경
+    public void changePassword(String token, String currentPassword, String newPassword) {
+        User currentUser = getCurrentUser(token);
+        
+        // 현재 비밀번호 확인
+        if (!passwordEncoder.matches(currentPassword, currentUser.getPassword())) {
+            throw new RuntimeException("현재 비밀번호가 일치하지 않습니다.");
+        }
+        
+        // 새 비밀번호 유효성 검사
+        if (newPassword == null || newPassword.length() < 6) {
+            throw new RuntimeException("새 비밀번호는 6자 이상이어야 합니다.");
+        }
+        
+        // 새 비밀번호로 업데이트
+        currentUser.setPassword(passwordEncoder.encode(newPassword));
+        userMapper.updateUser(currentUser);
+    }
+
+    // 회원탈퇴
+    public void deleteAccount(String token, String password) {
+        User currentUser = getCurrentUser(token);
+        
+        // 비밀번호 확인
+        if (!passwordEncoder.matches(password, currentUser.getPassword())) {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
+        
+        userMapper.deleteUser(currentUser.getUserId());
     }
 }

@@ -64,6 +64,19 @@ export const useAuthStore = defineStore('auth', () => {
         throw new Error(data.error || '회원가입에 실패했습니다.')
       }
 
+      // 회원가입 성공 시 토큰과 사용자 정보 저장 (자동 로그인)
+      token.value = data.token
+      user.value = {
+        id: data.userId,
+        username: data.username,
+        email: data.email,
+        role: data.role
+      }
+
+      // 로컬 스토리지에 토큰 저장
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('user', JSON.stringify(user.value))
+
       return data
     } catch (error) {
       console.error('Register error:', error)

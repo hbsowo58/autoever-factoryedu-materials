@@ -11,6 +11,7 @@
     <div class="user-area">
       <template v-if="authStore.isAuthenticated">
         <span class="username">{{ authStore.user?.username }}</span>
+        <router-link to="/profile" class="profile-link">프로필</router-link>
         <button @click="handleLogout" class="logout-btn">로그아웃</button>
       </template>
       <template v-else>
@@ -98,6 +99,19 @@ const handleLogout = () => {
   transition: all 0.2s;
 }
 .login-link:hover {
+  background: #fff;
+  color: #2d3a4b;
+}
+.profile-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  transition: all 0.2s;
+}
+.profile-link:hover {
   background: #fff;
   color: #2d3a4b;
 }

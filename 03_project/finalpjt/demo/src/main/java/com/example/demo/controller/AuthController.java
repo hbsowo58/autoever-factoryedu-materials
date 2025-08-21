@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.AuthResponse;
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
+import com.example.demo.model.User;
 import com.example.demo.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     // 회원가입
     @PostMapping("/register")
@@ -65,5 +69,76 @@ public class AuthController {
         response.put("original", password);
         response.put("hashed", hashedPassword);
         return ResponseEntity.ok(response);
+    }
+
+    // 현재 사용자 정보 조회
+    @GetMapping("/profile")
+    public ResponseEntity<?> getProfile(@RequestHeader("Authorization") String token) {
+        try {
+            User user = authService.getCurrentUser(token);
+            Map<String, Object> response = new HashMap<>();
+            response.put("userId", user.getUserId());
+            response.put("username", user.getUsername());
+            response.put("email", user.getEmail());
+            response.put("role", user.getRole());
+            response.put("createdAt", user.getCreatedAt());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    // 회원 정보 수정
+    @PutMapping("/profile")
+    public ResponseEntity<?> updateProfile(@RequestHeader("Authorization") String token, 
+                                         @RequestBody Map<String, String> request) {
+        try {
+            User updatedUser = authService.updateProfile(token, request);
+            Map<String, Object> response = new HashMap<>();
+            response.put("userId", updatedUser.getUserId());
+            response.put("username", updatedUser.getUsername());
+            response.put("email", updatedUser.getEmail());
+            response.put("role", updatedUser.getRole());
+            response.put("message", "회원 정보가 성공적으로 수정되었습니다.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    // 비밀번호 변경
+    @PutMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestHeader("Authorization") String token,
+                                          @RequestBody Map<String, String> request) {
+        try {
+            authService.changePassword(token, request.get("currentPassword"), request.get("newPassword"));
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "비밀번호가 성공적으로 변경되었습니다.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    // 회원탈퇴
+    @DeleteMapping("/profile")
+    public ResponseEntity<?> deleteAccount(@RequestHeader("Authorization") String token,
+                                         @RequestBody Map<String, String> request) {
+        try {
+            authService.deleteAccount(token, request.get("password"));
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "회원탈퇴가 완료되었습니다.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(error);
+        }
     }
 }

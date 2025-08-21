@@ -13,10 +13,11 @@
 ## 주요 기능
 
 ### 인증 시스템
-- 회원가입
+- 회원가입 (자동 로그인 포함)
 - 로그인
 - JWT 토큰 기반 인증
 - 비밀번호 암호화 (BCrypt)
+- 프로필 관리 (회원정보 수정, 비밀번호 변경, 회원탈퇴)
 
 ### 차량 대시보드
 - 차량 정보 관리
@@ -98,6 +99,47 @@ Content-Type: application/json
 }
 ```
 
+#### 4. 현재 사용자 정보 조회
+```http
+GET /api/auth/profile
+Authorization: Bearer {token}
+```
+
+#### 5. 회원 정보 수정
+```http
+PUT /api/auth/profile
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+    "username": "newusername",
+    "email": "newemail@example.com"
+}
+```
+
+#### 6. 비밀번호 변경
+```http
+PUT /api/auth/change-password
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+    "currentPassword": "oldpassword",
+    "newPassword": "newpassword"
+}
+```
+
+#### 7. 회원탈퇴
+```http
+DELETE /api/auth/profile
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+    "password": "currentpassword"
+}
+```
+
 ### 대시보드 API (인증 필요)
 
 #### 1. 대시보드 요약 정보
@@ -146,6 +188,8 @@ Authorization: Bearer {token}
 - JWT 토큰은 24시간 동안 유효합니다
 - 비밀번호는 BCrypt로 암호화됩니다
 - CORS가 모든 도메인에서 허용됩니다 (개발용)
+- 회원탈퇴 시 비밀번호 확인 필요
+- 비밀번호 변경 시 현재 비밀번호 확인 필요
 
 ## 프로젝트 구조
 

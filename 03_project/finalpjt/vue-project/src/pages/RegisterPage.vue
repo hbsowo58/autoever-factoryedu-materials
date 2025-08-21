@@ -89,7 +89,8 @@ const handleRegister = async () => {
   
   try {
     await authStore.register(registerForm)
-    router.push('/login')
+    // 회원가입 성공 시 자동으로 로그인되어 대시보드로 이동
+    router.push('/')
   } catch (err) {
     error.value = err.message || '회원가입에 실패했습니다.'
   } finally {
