@@ -60,7 +60,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from "axios";
+import api from "../utils/api";
 import LogTable from "../common/LogTable.vue";
 import SpeedLineChart from "../charts/SpeedLineChart.vue";
 import FuelGaugeChart from "../charts/FuelGaugeChart.vue";
@@ -100,10 +100,10 @@ onUnmounted(() => {
 
 async function fetchData() {
   // 차량 정보 불러오기
-  const vRes = await axios.get(`/api/vehicles/${vehicleId}`);
+  const vRes = await api.get(`/vehicles/${vehicleId}`);
   vehicle.value = vRes.data;
   // 센서 로그 불러오기
-  const logRes = await axios.get(`/api/vehicles/${vehicleId}/logs?start=&end=`);
+  const logRes = await api.get(`/vehicles/${vehicleId}/logs?start=&end=`);
   logs.value = logRes.data
     .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
     .slice(0, 10);
@@ -113,7 +113,7 @@ async function fetchData() {
     engine_temp: l.engineTemp,
   }));
   // 알림 로그 불러오기
-  const alertRes = await axios.get(`/api/vehicles/${vehicleId}/alerts`);
+  const alertRes = await api.get(`/vehicles/${vehicleId}/alerts`);
   alertLogs.value = alertRes.data;
 }
 
@@ -127,7 +127,7 @@ function startEdit() {
 
 async function submitEdit() {
   try {
-    await axios.put(`/api/vehicles/${vehicleId}`, {
+    await api.put(`/vehicles/${vehicleId}`, {
       modelName: editModelName.value,
       plateNumber: editPlateNumber.value,
       driverName: editDriverName.value,
@@ -145,7 +145,7 @@ async function submitEdit() {
 async function deleteVehicle() {
   if (!confirm("정말로 이 차량을 삭제하시겠습니까?")) return;
   try {
-    await axios.delete(`/api/vehicles/${vehicleId}`);
+    await api.delete(`/vehicles/${vehicleId}`);
     message.value = "차량이 삭제되었습니다.";
     success.value = true;
     setTimeout(() => router.push("/"), 1000);

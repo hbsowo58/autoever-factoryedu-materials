@@ -29,7 +29,7 @@
 <script setup>
 // LogTable: 차량 센서 로그 테이블 (snake_case 컬럼 접근 보장)
 import { ref, onMounted, watch } from "vue";
-import axios from "axios";
+import api from "../utils/api";
 
 const props = defineProps({
   vehicleId: {
@@ -41,8 +41,8 @@ const props = defineProps({
 const logs = ref([]);
 
 async function fetchLogs() {
-  const res = await axios.get(
-    `/api/vehicles/${props.vehicleId}/logs?start=&end=`
+  const res = await api.get(
+    `/vehicles/${props.vehicleId}/logs?start=&end=`
   );
   logs.value = res.data;
 }

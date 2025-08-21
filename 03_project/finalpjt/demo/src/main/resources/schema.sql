@@ -6,6 +6,18 @@ CREATE DATABASE IF NOT EXISTS vehicle_dashboard CHARACTER SET utf8mb4 COLLATE ut
 
 USE vehicle_dashboard;
 
+-- 사용자 테이블
+CREATE TABLE IF NOT EXISTS users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY COMMENT '사용자 고유 ID',
+    username VARCHAR(50) NOT NULL UNIQUE COMMENT '사용자명',
+    email VARCHAR(100) NOT NULL UNIQUE COMMENT '이메일',
+    password VARCHAR(255) NOT NULL COMMENT '암호화된 비밀번호',
+    role ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER' COMMENT '사용자 역할',
+    is_active BOOLEAN NOT NULL DEFAULT TRUE COMMENT '계정 활성화 상태',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '가입일시',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일시'
+) COMMENT '사용자 테이블';
+
 -- 차량 정보 테이블
 CREATE TABLE IF NOT EXISTS vehicle (
     vehicle_id INT AUTO_INCREMENT PRIMARY KEY COMMENT '차량 고유 ID',
@@ -72,4 +84,10 @@ INSERT INTO alert_log (vehicle_id, message, level, timestamp) VALUES
 (4, '연료 잔량이 10% 이하입니다. 긴급 주유가 필요합니다.', 'CRITICAL', DATE_SUB(NOW(), INTERVAL 15 MINUTE)),
 (4, '엔진 온도가 100도를 초과했습니다.', 'CRITICAL', DATE_SUB(NOW(), INTERVAL 10 MINUTE)),
 (5, '속도 제한을 초과했습니다.', 'WARN', DATE_SUB(NOW(), INTERVAL 45 MINUTE)),
-(5, '정상 운행 중입니다.', 'INFO', DATE_SUB(NOW(), INTERVAL 20 MINUTE)); 
+(5, '정상 운행 중입니다.', 'INFO', DATE_SUB(NOW(), INTERVAL 20 MINUTE));
+
+-- 테스트용 사용자 데이터 (비밀번호: 123456)
+INSERT INTO users (username, email, password, role, is_active, created_at, updated_at) VALUES
+('admin', 'admin@example.com', '$2a$10$9tgX3CnemVwFZ.VuBfBMq.pFdule/.1K3tdgS5p6S5m.6nu9PKq/C', 'ADMIN', true, NOW(), NOW()),
+('user1', 'user1@example.com', '$2a$10$9tgX3CnemVwFZ.VuBfBMq.pFdule/.1K3tdgS5p6S5m.6nu9PKq/C', 'USER', true, NOW(), NOW()),
+('user2', 'user2@example.com', '$2a$10$9tgX3CnemVwFZ.VuBfBMq.pFdule/.1K3tdgS5p6S5m.6nu9PKq/C', 'USER', true, NOW(), NOW()); 

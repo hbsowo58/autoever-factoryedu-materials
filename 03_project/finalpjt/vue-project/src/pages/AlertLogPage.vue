@@ -25,13 +25,13 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
-import axios from "axios";
+import api from "../utils/api";
 
 const alertLogs = ref([]);
 let intervalId = null;
 
 async function fetchData() {
-  const res = await axios.get("/api/alerts");
+  const res = await api.get("/alerts");
   alertLogs.value = res.data;
 }
 

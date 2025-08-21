@@ -8,11 +8,29 @@
       <router-link to="/">대시보드</router-link>
       <router-link to="/alerts">알림 로그</router-link>
     </nav>
+    <div class="user-area">
+      <template v-if="authStore.isAuthenticated">
+        <span class="username">{{ authStore.user?.username }}</span>
+        <button @click="handleLogout" class="logout-btn">로그아웃</button>
+      </template>
+      <template v-else>
+        <router-link to="/login" class="login-link">로그인</router-link>
+      </template>
+    </div>
   </header>
 </template>
 
 <script setup>
-// AppHeader: 상단 헤더(로고, 네비게이션 등 공통 UI)
+import { useAuthStore } from '../stores/auth'
+import { useRouter } from 'vue-router'
+
+const authStore = useAuthStore()
+const router = useRouter()
+
+const handleLogout = () => {
+  authStore.logout()
+  router.push('/login')
+}
 </script>
 
 <style scoped>
@@ -46,5 +64,41 @@
 }
 .nav-area a.router-link-active {
   text-decoration: underline;
+}
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.username {
+  color: #fff;
+  font-weight: 500;
+}
+.logout-btn {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.logout-btn:hover {
+  background: #fff;
+  color: #2d3a4b;
+}
+.login-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  transition: all 0.2s;
+}
+.login-link:hover {
+  background: #fff;
+  color: #2d3a4b;
 }
 </style> 

@@ -23,7 +23,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from "vue";
-import axios from "axios";
+import api from "../utils/api";
 import VehicleCard from "../common/VehicleCard.vue";
 import SpeedLineChart from "../charts/SpeedLineChart.vue";
 import FuelGaugeChart from "../charts/FuelGaugeChart.vue";
@@ -42,11 +42,11 @@ const latestFuel = computed(() =>
 let intervalId = null;
 
 async function fetchData() {
-  const res = await axios.get("/api/vehicles");
+  const res = await api.get("/vehicles");
   vehicles.value = res.data;
   if (vehicles.value.length > 0) {
     const vid = vehicles.value[0].vehicleId;
-    const logRes = await axios.get(`/api/vehicles/${vid}/logs?start=&end=`);
+    const logRes = await api.get(`/vehicles/${vid}/logs?start=&end=`);
     logs.value = logRes.data
       .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
       .slice(0, 10);
@@ -54,7 +54,7 @@ async function fetchData() {
       timestamp: l.timestamp,
       engine_temp: l.engineTemp,
     }));
-    const alertRes = await axios.get(`/api/vehicles/${vid}/alerts`);
+    const alertRes = await api.get(`/vehicles/${vid}/alerts`);
     alertLogs.value = alertRes.data;
   }
 }

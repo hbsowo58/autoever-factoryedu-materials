@@ -29,7 +29,7 @@
 <script setup>
 // 차량 등록 폼 페이지
 import { ref } from "vue";
-import axios from "axios";
+import api from "../utils/api";
 import { useRouter } from "vue-router";
 
 const modelName = ref("");
@@ -42,7 +42,7 @@ const router = useRouter();
 const submit = async () => {
   message.value = "";
   try {
-    await axios.post("/api/vehicles", {
+    await api.post("/vehicles", {
       modelName: modelName.value,
       plateNumber: plateNumber.value,
       driverName: driverName.value,
